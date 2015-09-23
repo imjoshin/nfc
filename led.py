@@ -9,23 +9,25 @@ def set(r, g, b):
 
 def lock():
 	flash = True
-	for i in range(0, settings.SPINTIME * 2):
+	for i in range(0, settings.SPINTIME * settings.BLINKFRACTION):
+		if flash:
+			set(1, 1, 1)
+		else:
+			set(0, 1, 0)
+		flash = not flash
+		sleep(1.0 / settings.BLINKFRACTION)
+	set(0, 1, 0)
+
+def unlock():
+	flash = True
+	for i in range(0, settings.SPINTIME * settings.BLINKFRACTION):
 		if flash:
 			set(1, 1, 0)
 		else:
 			set(0, 1, 0)
 		flash = not flash
-		sleep(.5)
-
-def unlock():
-	flash = True
-	for i in range(0, settings.SPINTIME * 2):
-		if flash:
-			set(0, 1, 1)
-		else:
-			set(0, 1, 0)
-		flash = not flash
-		sleep(.5)
+		sleep(1.0 / settings.BLINKFRACTION)
+	set(0, 1, 0)
 
 def setup():
 	GPIO.setmode(GPIO.BOARD)
